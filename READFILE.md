@@ -7,7 +7,57 @@
 
 - I hope I can learn this, and enjoy this harsh journey
 
+
 # Lessons
+
+## General Ideas
+
+- **not a library** but a specification, there is no **code** only functions that one can use
+- No need to download anything, the implementatino of the openGl is made by **graphics cards** manufacture
+- This is the reason why games (for example) may look different in different graphics
+- Kinda of cross platform - not necessarly better for that reason
+- OpenGl its the easiest API to learn  - not as low level
+- There is modern and 
+
+## The resources used
+
+### Glew
+
+The main Extension Wrangler
+
+- OpenGL Extension Wrangler 
+- Interface for OpenGL versions above 1.1
+- The builtin libraries only allow for below 1.1
+- Modern OpenGL is considered to be above 3. something
+- Glew can detect whether a specific extension exist on the platform 
+- Alternatives are: GL3w, glLoadGen, glad, glsdk, Glee, libepoxy ... 
+
+#### Usage
+
+- use **#include<GL/glew.h>**
+- initialize OpenGl context
+- enable **glewExperimental** using **enums like** GL_TRUE
+- initialize with **glewinit()**
+- Check if there is errors with **GLEW_OK**
+- read errors with **glewGetErrorString(result)**
+
+### GLFW
+
+Library to handle windows and create OpenGL context.
+
+- Window creation and control
+- process input from different sources
+- allows **multiple** monitor support
+
+### SDL
+
+Super popular and similar to GLFW but with more functionalities (audio, threading, filesystems)
+
+### Alternatifve
+
+- SFML (simple and fast multimedia library) - even more features than SDL. Week OpenGl context
+- GLUT (OpenGL Utility Toolkit) - no longer maintained. AVOID IT! ahahah
+- Win32 API - for the purists. Lowest level for window creation 
 
 ## Shaders and the rendering Pipeline
 

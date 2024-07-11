@@ -1,49 +1,42 @@
 
-# Set gcc as the C++ compiler
-CXX=g++
+# Set g++ as the C++ compiler
+CXX = g++
 
-# Enforce C++ 2011 as the language standard
-CXXFLAGS=-std=c++11 -pedantic
+# Enforce C++ 11 as the language standard
+CXXFLAGS = -std=c++11 -pedantic
 
-# Enable all standard warnings, uninitialized variable warnings, 
+# Enable all standard warnings, uninitialized variable warnings,
 # and treat all warnings as errors
-CXXFLAGS+= -Wall -Wuninitialized -Werror
+CXXFLAGS += -Wall -Wuninitialized -Werror
 
 # Generate code with debugging information
 # (for use with a debugger like gdb)
-CXXFLAGS+= -g
+CXXFLAGS += -g
 
-# Link with math library
-CXXFLAGS+= -lm
+# Link with math library and other required libraries
+LDFLAGS = -lm -lglfw -lGLEW -lGL
 
-# Enable ASan (Address Sanitizer) 
-# and UBSan (Undefined Behavior Sanitizer)
-#
-# NOTE: comment these temporarily if 
-# your development environment is failing
-# due to these settings - it is important that 
-# you fix your environment at some point.
-CXXFLAGS+=-fsanitize=address -fsanitize=undefined
+# Name of executable program
+PROG = rooster
 
-LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+# Source files
+SRC = main.cpp
 
-# C++ source files to consider in compilation
-CPP_FILES=
-# C++ header files to consider in compilation
-HEADERS=
-# Name of executable program ('main' by default)
-PROG=rooster
-# Name of the executable
+# Default target
+all: $(PROG)
 
-
-
-
-all: rooster
-
+# Build the target executable
 %: %.cpp
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $< -o rooster
+	$(CXX) $(CXXFLAGS) $< -o rooster $(LDFLAGS)
+	./rooster
 
+# Clean up build files
 clean:
-	rm -f rooster
+	rm -f $(PROG)
 
+run:
+	./rooster
+
+# Phony targets
+.PHONY: all clean
 
