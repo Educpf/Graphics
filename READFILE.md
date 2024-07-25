@@ -239,3 +239,6 @@ void main()
 - Vertex Array Object (VAO): WHAT data a vertex hax
 - Vertex Buffer Object (VBO): The vertex data itself
 - Shader programs are created with at least a Vertex Shader and then activated before use
+
+## Math stuff required
+
