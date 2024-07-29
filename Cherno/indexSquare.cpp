@@ -119,7 +119,7 @@ int main(void){
 
 
     // Create a windowed mode window and its OpenGL Context
-    window = glfwCreateWindow(640, 480, "RedCherno", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "RedCherno", nullptr, nullptr);
     if (!window){
         glfwTerminate();
         return -1;
