@@ -101,6 +101,7 @@ void CompileShaders(){
     GLchar eLog[1024] = {0};
 
     glLinkProgram(shader);
+
     glGetProgramiv(shader, GL_LINK_STATUS, &result);
     if (!result){
         glGetProgramInfoLog(shader, sizeof(eLog), NULL, eLog);

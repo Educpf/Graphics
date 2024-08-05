@@ -184,6 +184,12 @@ int main(void) {
 
     uint indices[]{0, 1, 2, 2, 3, 0};
 
+    // Create VAO
+    uint vao;
+    GLCall(glGenVertexArrays(1, &vao));
+    GLCall(glBindVertexArray(vao));
+
+
     // The ID - identifier for the buffer
     uint buffer;
     GLCall(glGenBuffers(1, &buffer));
@@ -220,6 +226,11 @@ int main(void) {
     ASSERT(location != -1);
     GLCall(glUniform4f(location, 0.8f, 0.3f, 0.8f, 1.0f));
 
+    GLCall(glUseProgram(0));
+    GLCall(glBindVertexArray(0));
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
     float r = 0.0f;
     float increment = 0.005f;
     uint count = 0;
@@ -231,10 +242,14 @@ int main(void) {
          * glClearColor/glClearDepth/glClearStencil*/
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
+        GLCall(glUseProgram(shader));
         GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
+
+        GLCall(glBindVertexArray(vao));
+
         /*Using Modern OpenGl*/
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-        if (count % 10 == 0){
+        if (count % 4 == 0){
             if (r > 1.0f)
                 increment = -0.05f;
             else if (r < 0.0f)
