@@ -13,6 +13,8 @@ CXXFLAGS += -Wall -Wuninitialized -Werror
 # (for use with a debugger like gdb)
 CXXFLAGS += -g
 
+CXXFLAGS += -I/usr/include/glm
+
 # Link with math library and other required libraries
 LDFLAGS = -lm -lglfw -lGLEW -lGL
 

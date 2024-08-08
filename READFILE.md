@@ -325,6 +325,24 @@ glUniform...:
 - 4fv - same as above but value specified by pointer
 - Matrix4fv - mat4 of floating values, specified by pointer
 
+## Abstraction
+Reasons for abstraction:
+
+- Change names, keep consistency with a simple wrap up 
+- 
+
+There's a need to do some abstraction to improve readability
+
+- Vertex Buffer 
+- Index Buffer
+- Vertex Array (if using or not)
+- Rendered (what tights everything together) - works by commanding it to draw something
+  - It's responsible for the draw call (it could be thighed to individual index buffers)
+  - Center pipeline
+- Shaders 
+  
+An error can occur when program tries to destroy Vertex and Index buffer but doing so after glfwTerminate was called. This function destroys the OPENGl context, which GlGetError detects as an error. Fixing this is as simple as destroying those structures before calling that function, by creating a scope or dynamically allocating in the heap.
+
 
 
 ## Math stuff required

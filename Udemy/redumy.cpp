@@ -4,9 +4,17 @@
 #include <string.h>
 #include <iostream>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 
 // Window dimensions
 const int WIDTH = 800, HEIGHT = 600;
+
+// Movement values
+uint uniformModel;
+
 
 GLuint VAO, VBO, shader;
 
@@ -76,7 +84,7 @@ void AddShader(GLuint theProgram, const char* shaderCode, GLenum shaderType){
 
     glGetShaderiv(theShader, GL_COMPILE_STATUS, &result);
     if (!result){
-        glGetShaderInfoLog(theShader, sizeof(eLog), NULL, eLog);
+        glGetShaderInfoLog(theShader, sizeof(eLog), nullptr, eLog);
         printf("Error compiling the %d shader: %s\n", shaderType, eLog);
         return;
     }
@@ -185,6 +193,12 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shader);
+
+        glm::mat4 model(1.0f);
+        model = glm::translate(model, glm::vec3(triOffset, 0.0f, 0.0f));
+
+
+        glUniform1d(uniformModel, triOffset)
 
         glBindVertexArray(VAO);
 
