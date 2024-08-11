@@ -11,3 +11,12 @@
 **/*.dylib
 **/*.elf
 
+
+# Ignore directories of temporary files
+**/bin/
+**/obj/
+**/dep/
+
+# Ignore platform specific stuff
+.vscode/
+
