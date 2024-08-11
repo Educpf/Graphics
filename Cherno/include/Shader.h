@@ -26,8 +26,9 @@ public:
 
 
     // Set uniforms
-    void SetUniform4f(const std::string& name, float f0, float f1, float f2, float f3);
     void SetUniform1f(const std::string& name, float f0);
+    void SetUniform4f(const std::string& name, float f0, float f1, float f2, float f3);
+    void SetUniform1i(const std::string& name, int i0);
 
 private:
     int GetUniformLocation(const std::string& name);

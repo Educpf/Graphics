@@ -1,13 +1,6 @@
-# Variables
+# Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++17 -pedantic
-CXXFLAGS += -Wall -Wextra -Wuninitialized 
-CXXFLAGS += -g
-
-INCLUDES = -Iinclude
-DEPFLAGS = -MMD -MP
-
-# Link with math library and other required libraries
+CXXFLAGS = -std=c++11 -Wall -Wextra -Iinclude
 LDFLAGS = -lm -lglfw -lGLEW -lGL
 
 # Directories
@@ -16,34 +9,28 @@ INCDIR = include
 OBJDIR = obj
 DEPDIR = dep
 BINDIR = bin
-RESIR = res
 
 # Source and object files
-SRCS = $(filter-out $(wildcard $(SRCDIR)/*.cpp), $(wildcard $(SRCDIR)/**/*.cpp))
+SRCS = $(wildcard $(SRCDIR)/**/*.cpp) $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
 DEPS = $(patsubst $(OBJDIR)/%.o, $(DEPDIR)/%.d, $(OBJS))
 
-# Resources folder
-RESRC = $(wildcard $(RESIR)/**/*)
-
 # Output executable
-TARGET = $(BINDIR)/$(file)
+TARGET = $(BINDIR)/rooster
 
-
+# Default target
 all: $(TARGET)
 
-
 # Rule to link the object files into the executable
-$(TARGET): $(OBJDIR)/$(file).o $(OBJS) $(RESRC)
+$(TARGET): $(OBJS)
 	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) $(OBJS) $(OBJDIR)/$(file).o $(INCLUDES) -o $(TARGET) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $@ $(LDFLAGS)
 
 # Pattern rule to compile source files into object files with dependency generation
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	@mkdir -p $(OBJDIR) $(DEPDIR) $(dir $(OBJDIR)/$*) $(dir $(DEPDIR)/$*)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
+	@mkdir -p $(OBJDIR) $(DEPDIR) $(dir $(OBJDIR)/$*)
+	$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@
 	@mv $(OBJDIR)/$*.d $(DEPDIR)/$*.d
-
 
 # Include dependency files
 -include $(DEPS)
@@ -53,6 +40,4 @@ clean:
 	rm -rf $(OBJDIR) $(DEPDIR) $(BINDIR)
 
 # Phony targets
-.PHONY: all clean file
-
-
+.PHONY: all clean

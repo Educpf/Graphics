@@ -329,7 +329,6 @@ glUniform...:
 Reasons for abstraction:
 
 - Change names, keep consistency with a simple wrap up 
-- 
 
 There's a need to do some abstraction to improve readability
 
@@ -342,6 +341,34 @@ There's a need to do some abstraction to improve readability
 - Shaders 
   
 An error can occur when program tries to destroy Vertex and Index buffer but doing so after glfwTerminate was called. This function destroys the OPENGl context, which GlGetError detects as an error. Fixing this is as simple as destroying those structures before calling that function, by creating a scope or dynamically allocating in the heap.
+
+## Textures
+
+Common sense: have an image on some kind of surface
+
+But they can be much more!!! Image that can be used when rendering something, with much power!
+
+The beginning would just be getting an image from computer into a surface in the application!
+
+1. Load image into CPU (game engines usually have specific image extensions) - using PNG
+2. Use a library to get the info from image (give filePath - receive buffer of pixel colors)
+3. **Invert** the image so that pixels start from the **bottom left** corner (How OpenGl expects)
+4. Upload the pixel color buffer to GPU (create texture in OpenGL via ```glGenTextures([number of textures], &id)```)
+5. Bind texture when rendering (```glBindTextures([type](2d, 3d?), id)```)
+6. Setup texture settings (```glTexParameter(type of data)([type], [parameter], [type of resampling??])```)
+  - There are 4 **necessary parameters to be defined**
+  - GL_TEXTURE_MIN_FILTER ( how it gets scaled down)
+  - GL_TEXTURE_MAG_FILTER ( how it gets scaled up)
+  - GL_TEXTURE_MAP_S ( how it in x ...)
+  - GL_TEXTURE_MAP_T ( how it in y...)
+7. Pass the data to OpenGl texture (```glTexImage2d(...)```)
+8. Modify fragment(pixel)shader to read texture 
+  - Shader **reads** from **integer uniform** which **slot (sampler slot)** is the texture in so we can sample from there
+
+Texture are stored in OpenGl in **slots**. The **number of slots** depends on the GPU.
+
+Its possible to ask OpenGl how many available slots there are!
+
 
 
 

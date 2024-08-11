@@ -27,6 +27,7 @@ Make use of Uniforms to be able to change the fragment shader to use CPU informa
 #include "VertexArray.h"
 #include "Shader.h"
 #include "VertexBufferLayout.h"
+#include "Texture.h"
 
 
 int main(void) {
@@ -60,32 +61,40 @@ int main(void) {
     // Define Vertex Buffer (VBO?) to be allocated in VRAM
 
     float positions[] = {
-        -0.5f, -0.5f,  // 0
-        0.5f,  -0.5f,  // 1
-        0.5f,  0.5f,   // 2
-        -0.5f, 0.5f    // 3
+        -0.5f, -0.5f, 0.0f, 0.0f, // 0
+        0.5f,  -0.5f, 1.0f, 0.0f, // 1
+        0.5f,  0.5f,  1.0f, 1.0f,  // 2
+        -0.5f, 0.5f,  0.0f, 1.0f // 3
     };
 
     uint indices[]{0, 1, 2, 2, 3, 0};
 
+    GLCall(glEnable(GL_BLEND));
+    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
     // Create VAO
     VertexArray vao;
     // The ID - identifier for the buffer
-    VertexBuffer vb(positions, sizeof(float) * 4 * 2);
+    VertexBuffer vb(positions, sizeof(float) * 4 * 4);
     // Stores indices in the GPU
     IndexBuffer ib(indices, 6);
     // Create Vertex Buffer layout
     VertexBufferLayout layout;
+    layout.Push<float>(2);
     layout.Push<float>(2);
     // Bind the layout to the VAO
     vao.AddBuffer(vb, ib, layout);
 
     // Pase the shaders from the location specified
 
-    Shader shader("../res/shaders/Basic.glsl");
+    Shader shader("res/shaders/Texture.glsl");
     shader.Bind();
     shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
 
+    Texture texture("res/Him.png");
+
+    texture.Bind(/*default 0*/);
+    shader.SetUniform1i("u_Texture", 0/*matches the slot texture was bind to*/);
 
     vao.Unbind();
     vb.Unbind();
