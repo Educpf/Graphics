@@ -94,7 +94,7 @@ Super popular and similar to GLFW but with more functionalities (audio, threadin
 
 - **VAO** -> Vertex Array Objects -> defines what data vertex has (position, colour, texture, normal etc...)
 - **VBO** -> Vertex Buffer Objects -> defines the data itself
-- **IBO** -> Index Buffer Objects ->  allows the program to reuse existing vertices (no need to repeat info in the VBO)
+- **IBO** -> Index/Element Buffer Objects ->  allows the program to reuse existing vertices (no need to repeat info in the VBO)
 
 All of this gets stored in the RAM of the GPU to improve performance
 
@@ -134,6 +134,7 @@ If **not using IBO**:
 If **using IBO**:
 
 3. Call ```glDrawElements(GL_TRIANGLES, numberOfIndices in indices array, typeOfData, nullptr)```
+
 #### Vertex Shader
 
 - **NOT OPTIONAL**
@@ -325,6 +326,19 @@ glUniform...:
 - 4fv - same as above but value specified by pointer
 - Matrix4fv - mat4 of floating values, specified by pointer
 
+## Interpolation
+
+- Used for quickly estimate values without needing to define them
+- Sometimes Per-Vertex attributes are **interpolated**, meaning that the values between those vertices are discovered by a **weighted average**.
+- Fragment Shader picks that interpolated value and uses it
+
+Uses:
+
+- Texture Coordinates when mapping textures (only need to define corners and the rest gets mapped)
+- Normal Vectors when handling lighting 
+- Useful in Phong Shading to create the illusion of smooth/round surfaces
+
+
 ## Abstraction
 Reasons for abstraction:
 
@@ -369,8 +383,116 @@ Texture are stored in OpenGl in **slots**. The **number of slots** depends on th
 
 Its possible to ask OpenGl how many available slots there are!
 
+## Projections
+
+- Convert from **View Space** to **Clip Space**
+- Used to give a 3D look
+- Or create a 2D style for projects that require it
+- Fundamental coordinate systems are understood
+
+### Coordinate systems
+
+- **Local Space** - Raw position of each vertex drawn relative to the origin. Multiply by **Model Matrix** to get...
+- **World Space** - Position of the vertex **in the world** itself if **camera assumed** to be at the **origin**. Multiply by **View Matrix** to get...
+- **View Space** - Position of vertex **in the world** relative to the **camera position and orientation**. Multiply by **projection Matrix** to get...
+- **Clip Space** - ... as **viewed in the area** not to be "clipped" from the final output
+- **Screen space** - after clipping, final image is created and placed on the window
+
+**Order matters!!! projection * view * model * LocalSpace**
+
+## Projections
+
+- In order to create the **Clip Space** an **area (frustum)** of what is not to be clipped **needs** to be defined with a Projection Matrix
+- There are two main types of Projection
+
+#### Orthographic (most common on 2D apps)
+
+![OrthographicProjectionImage](res/orthographicProjection.png)
+
+- Frustum is **cuboid**
+- Everything between Far and Near plane is kept, everything else is discarded
+- 3D depth is not visible
+- Object moving closer/further won't affect its size
+
+#### Perspective (most common on 3D apps)
+
+![PrespectiveProjectionImage](res/prespectiveProjection.png)
+
+- Frustum is a **truncated pyramid**
+- Each pixel on the Near Plane at an angle to reach matching point on Far plane
+- Gives the illusion of depth
+- The more an object gets closer to the near plane, the more lines it intercepts, getting bigger
+
+#### Comparison
+
+![ComparisonProjections](res/comparisonProjection.png)
+
+- **Orthographic**: The one furthest back looks to be the same size as the one in front, implying its larger 
+- **Perspective**: The one in the back look smaller than the one at the front, due to being more distant, as it should
+
+### Projection with GLM and OpenGL
+
+- glm::mat4 proj = glm::perspective(fov, aspect, near, far);
+- **fov**: field-of-view, the angle of frustum
+- **aspect**: aspect ratio of the viewport (usually **width/height**)
+- **near**: distance of the near plane
+- **far**: distance of the far plane
+- Bind the given matrix to an uniform
+- gl_Position = projection * view * model * vec4(pos, 1.0f);
+
+
+## Camera
+
+![CameraViewImage](res/cameraView.png)
+
+- Processes the scene as seen in **View Space** (coordinate system with each vertex as seen from camera)
+- View Matrix to convert World Space into View Space
+- View Matrix requires: Camera Position, Direction, Right(direction) and Up(direction)
+  - Direction: direction that camera is looking in (opposite of the intuitive)
+  - Right: defines the x-axis of the camera. Can be calculated by **cross product** between UP[0,1,0] and Direction
+  - Up: can be calculated by the cross product between Direction and the Right
+
+### Calculations of the Matrix
+
+![ViewMatrix](res/viewMatrix.png)
+
+- Apply the viewMatrix to a vertex and it will be converted to View Space
+- GLM has specific function for this: ```glm::mat4 viewMatrix = glm::lookAt(position, target , up);```
+  - target: point to look at (can be considered as the camera position + direction)
+  - up = The upwards direction of the **world**
+
+#### Moving the camera
+
+- GLFW:glfwGetKey(window, GLFW_KEY_W) to check if a key is pressed
+- Add value to camera position while key is held
+
+###### Input: Delta Time
+
+- Basic Idea: Check how much time passed since last loop and move based on that so speed is constant
+- deltaTime = current - last;
+- last = current
+- multiply movement speed by deltaTime
+  
+#### Turning
+
+- Pitch: looking up and down - needs to rotate view up and down using axis relative to yaw
+- Yaw: looking left and right - only rotates us around the y-axis
+- Roll: like a plane doing a barrel roll
+
+##### Pitch
+- X = sin(pitch)
+- y = cos(pitch)
+- z = cos(pitch)
+
+##### Yaw
+- x = cos(yaw)
+- y = sin(yaw)
+
+##### Final
 
 
 
 ## Math stuff required
+
+
 
