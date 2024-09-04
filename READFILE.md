@@ -10,7 +10,7 @@
 
 # Lessons
 
-## General Ideas
+# General Ideas
 
 - **not a library** but a specification, there is no **code** only functions that one can use
 - No need to download anything, the implementation of the openGl is made by **graphics cards** manufacture
@@ -19,9 +19,9 @@
 - OpenGl its the easiest API to learn  - not as low level
 - There is modern and 
 
-## The resources used
+# The resources used
 
-### Glew
+## Glew
 
 The main Extension Wrangler
 
@@ -32,7 +32,7 @@ The main Extension Wrangler
 - Glew can detect whether a specific extension exist on the platform 
 - Alternatives are: GL3w, glLoadGen, glad, glsdk, Glee, libepoxy ... 
 
-#### Usage
+### Usage
 
 - use **#include<GL/glew.h>**
 - initialize OpenGl context
@@ -41,7 +41,7 @@ The main Extension Wrangler
 - Check if there is errors with **GLEW_OK**
 - read errors with **glewGetErrorString(result)**
 
-### GLFW
+## GLFW
 
 Library to handle windows and create OpenGL context.
 
@@ -49,17 +49,17 @@ Library to handle windows and create OpenGL context.
 - process input from different sources
 - allows **multiple** monitor support
 
-### SDL
+## SDL
 
 Super popular and similar to GLFW but with more functionalities (audio, threading, filesystems)
 
-### Alternatifve
+## Alternatifve
 
 - SFML (simple and fast multimedia library) - even more features than SDL. Week OpenGl context
 - GLUT (OpenGL Utility Toolkit) - no longer maintained. AVOID IT! ahahah
 - Win32 API - for the purists. Lowest level for window creation 
 
-## Shaders and the rendering Pipeline
+# Shaders and the rendering Pipeline
 
   **Rendering Pipeline**
 
@@ -70,7 +70,7 @@ Super popular and similar to GLFW but with more functionalities (audio, threadin
 - Pieces of code written in either GLSL (OPENGL Shading Language) or **HLSL** (HIgh-level Shading Language) if using Direct3D
 - GLSL is based on C
 
-### Pipeline Stages
+## Pipeline Stages
 
 1. Vertex Specification
 2. Vertex Shader - Prog.
@@ -82,7 +82,7 @@ Super popular and similar to GLFW but with more functionalities (audio, threadin
 8. Fragment Shader - Prog.
 9. Per-Sample Operations
 
-#### Vertex Specification
+### Vertex Specification
 
 - Settings up the data of the vertices of the primitives to render
 - Vertex != position, is just a point of the geometry because it can contain more data. Each type of data is called an **attribute**
@@ -90,7 +90,7 @@ Super popular and similar to GLFW but with more functionalities (audio, threadin
 - triangles most common, but also points, lines and quads. 
 - Step done in the application itself
 
-##### Used structures VAOs, VBOs and IBO 
+#### Used structures VAOs, VBOs and IBO 
 
 - **VAO** -> Vertex Array Objects -> defines what data vertex has (position, colour, texture, normal etc...)
 - **VBO** -> Vertex Buffer Objects -> defines the data itself
@@ -100,7 +100,7 @@ All of this gets stored in the RAM of the GPU to improve performance
 
 - **attribute pointers** where and how shaders can acess vertex data, actually connect those structures to the shaders
 
-###### The steps for creation
+##### The steps for creation
 
 - Generate a VAO ID
 - Bind the VAO with that ID
@@ -120,7 +120,7 @@ If using index buffer there some additional steps that allow the creation of suc
 - Bind the IBO with that ID (```glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId)```)
 - Attach the indices data to that IBO (```glBufferData(GL_ELEMENT_ARRAY_BUFFER, size [in bytes of the indices array], indices, typeUsage(GL_STATIC_DRAW))```)
 
-###### Initiate the draw
+##### Initiate the draw
 
 The process can **vary** if one is **using IBO or not**
 
@@ -135,7 +135,7 @@ If **using IBO**:
 
 3. Call ```glDrawElements(GL_TRIANGLES, numberOfIndices in indices array, typeOfData, nullptr)```
 
-#### Vertex Shader
+### Vertex Shader
 
 - **NOT OPTIONAL**
 - Handles vertices **individually** (possible change vertices using matrixes, offset them etc...)
@@ -158,20 +158,20 @@ void main()
 ```
 - Define version of GLSL now syncronises with OPENGL version
 
-#### Tesselation
+### Tesselation
 
 - Only appeard in OpenGl 4
 - Allows you to divide data in to smaller primites (ex. quads -> triangles)
 - Can be used to add higher levels of detail dynamically (ex. when you get closer to something. Used in water)
 
-#### Geometry Shader
+### Geometry Shader
 
 - handles primitives (groups of vertices) [recall, VertexShader handles vertices]
 - takes primitives then emits their vertices to create the given primitive, or even new primitive
 - Can alter data given to it to modify given primitives, or even create new ones
 - Can even alter the primitive types (points, line, triangles, etc) - take one type ouput another
 
-#### Vertex Post-Processing
+### Vertex Post-Processing
 
 Sometimes stages are considered different ones
 
@@ -183,19 +183,19 @@ Sometimes stages are considered different ones
 - Primitives that won't be visible are removed
 - Positions converted from "clip-space" to "window-space"
 
-#### Primitive Assembly
+### Primitive Assembly
 
 - Mathematically define everything as a primitive
 - Vertices are converted in to a series of primitives (ex. rendering triangles, 6 vertices would become 2 triangles, 3 vertices each)
 - **Face culling** - the removal of primitives that can't be seen, or are facing "away" from the viewer
 
-#### Rasterization
+### Rasterization
 
 - Converts primitives into "Fragments"
 Fragments - pieces of data for each pixel, obtained from the rasterization process
 - Fragment data will be interpolated based on its position relative to each vertex
 
-#### Fragment Shader - pixel shaders
+### Fragment Shader - pixel shaders
 
 - Optional but its rare not being used - Exceptions are cases when only depth or stencil data is required (ex. shadow maps)
 - Its called for each pixel/fragment of the screen
@@ -218,7 +218,7 @@ void main()
 - No need to be called exactly colour
 - **in** catches output from **Vertex Shader**
 
-#### Per-sample Operations
+### Per-sample Operations
 
 - Series of test runs to see if the fragment should be drawn
 - **Depth test** - most important test. Determines if something is in front of the point being drawn
@@ -229,13 +229,13 @@ void main()
 
 **PIPELINE is OVER!**
 
-### On the origin of shaders
+## On the origin of shaders
 
 - Shader is just a program that runs on the GPU
 - Shader Programs are a group of shaders associated with one another
 - Created in OPENGL via a series of functions.
 
-### Creating a Shader Program
+## Creating a Shader Program
 
 1. Create empty program (```uint program = glCreateProgram()```)
 2. Create empty shaders (```uint id = glCreateShader(GL_TYPE_SHADER)```)
@@ -254,13 +254,13 @@ void main()
 11. Can delete each individual shader, the intermidiate files (```glDeleteShader(shader)```)
 12. May have to detach shader (```glDetachShader(program, shader)```) - can delete info necessary to debug
 
-### Loading shaders
+## Loading shaders
 
 The different shaders are loaded into GLEW, as we saw, via a strings that contain the source code. 
 One might write the shader code in the same file or do it in a different file or location and then load it, making use of the C++ fstream logic.
 
 
-### Using a shader program 
+## Using a shader program 
 
 - When you create a shader, an ID is given (like with VAOs and VBOs)
 - Simply call **glUseProgram(shaderID)**
@@ -279,9 +279,9 @@ One might write the shader code in the same file or do it in a different file or
 - Vertex Buffer Object (VBO): The vertex data itself
 - Shader programs are created with at least a Vertex Shader and then activated before use
 
-## Dealing with errors!
+# Dealing with errors!
 
-### No external Tools
+## No external Tools
 
 - **glGetError()** - has been in OpenGl since the beginning (compatible with all version)
   - Every time an OpenGl functions runs and an error occurs a flag gets set internally in OpenGl insides. 
@@ -292,7 +292,7 @@ One might write the shader code in the same file or do it in a different file or
   - Explains also what was the exact error and suggest how to fix it
 
 
-## Uniforms
+# Uniforms
 
 A way of passing information from CPU to GPU (shaders) as if declaring a variable. 
 
@@ -316,7 +316,7 @@ void main(){
 - Location can be -1 if OpenGl didn't find it in the specified program (uniform must be used in the shader not only declared)
 - Make use of the functions ```glUniform[type](location, values...)```
 
-#### Types
+### Types
 
 glUniform...:
 
@@ -326,7 +326,7 @@ glUniform...:
 - 4fv - same as above but value specified by pointer
 - Matrix4fv - mat4 of floating values, specified by pointer
 
-## Interpolation
+# Interpolation
 
 - Used for quickly estimate values without needing to define them
 - Sometimes Per-Vertex attributes are **interpolated**, meaning that the values between those vertices are discovered by a **weighted average**.
@@ -339,7 +339,7 @@ Uses:
 - Useful in Phong Shading to create the illusion of smooth/round surfaces
 
 
-## Abstraction
+# Abstraction
 Reasons for abstraction:
 
 - Change names, keep consistency with a simple wrap up 
@@ -356,47 +356,90 @@ There's a need to do some abstraction to improve readability
   
 An error can occur when program tries to destroy Vertex and Index buffer but doing so after glfwTerminate was called. This function destroys the OPENGl context, which GlGetError detects as an error. Fixing this is as simple as destroying those structures before calling that function, by creating a scope or dynamically allocating in the heap.
 
-## Textures
+# Textures
 
-Common sense: have an image on some kind of surface
+- Common sense: have an image on some kind of surface
+- Images used to add detail to object
+- Usually 2D but can be 1D or even 3D
+- Points on textures are called **texels** ( defined between 0 and 1, kinda percentage), not pixels
+- But they can be much more!!! Image that can be used when rendering something, with much power! (ex. normal maps)
+- The beginning would just be getting an image from computer into a surface in the application!
+- **Texturer.com** is a great place to get them
 
-But they can be much more!!! Image that can be used when rendering something, with much power!
+## Samplers
 
-The beginning would just be getting an image from computer into a surface in the application!
+- Textures are accessed via **Samplers**
+- Texture are stored in **slots/texture Unit**. 
+- The **number of slots** depends on the GPU. Its possible to ask OpenGL how many are available
+- To get **value of texel** use "texture" function ```texture(textureSampler, TexCoord)```
+- To define which **slot to bind** ```glActiveTexture(GL_TEXTURE(num))```
+- To bind do ```glBindTexture([type](GL_TEXTURE_2D), id)```
+
+
+
+## Texels
+
+![Texels](res/texels.png)
+
+- Map texels to vertices
+- Interpolation over each fragment will calculate appropriate texels in between the assigned ones
+
+## Implementation 
 
 1. Load image into CPU (game engines usually have specific image extensions) - using PNG
 2. Use a library to get the info from image (give filePath - receive buffer of pixel colors)
 3. **Invert** the image so that pixels start from the **bottom left** corner (How OpenGl expects)
 4. Upload the pixel color buffer to GPU (create texture in OpenGL via ```glGenTextures([number of textures], &id)```)
 5. Bind texture when rendering (```glBindTextures([type](2d, 3d?), id)```)
-6. Setup texture settings (```glTexParameter(type of data)([type], [parameter], [type of resampling??])```)
+6. Setup texture settings (```glTexParameter(type of data) ([type], [parameter], [type of resampling??])```)
   - There are 4 **necessary parameters to be defined**
   - GL_TEXTURE_MIN_FILTER ( how it gets scaled down)
   - GL_TEXTURE_MAG_FILTER ( how it gets scaled up)
-  - GL_TEXTURE_MAP_S ( how it in x ...)
-  - GL_TEXTURE_MAP_T ( how it in y...)
-7. Pass the data to OpenGl texture (```glTexImage2d(...)```)
+  - GL_TEXTURE_WRAP_S ( how wrap in x ...)
+  - GL_TEXTURE_WRAP_T ( how wrap in y...)
+7. Pass the data to OpenGl texture (```glTexImage2d(id, Mipmap level, format to store(ex. rgb, rgba), width, height, 0 (legacy stuff regarding borders), format to read, data type of values, data itself)```)
 8. Modify fragment(pixel)shader to read texture 
   - Shader **reads** from **integer uniform** which **slot (sampler slot)** is the texture in so we can sample from there
 
-Texture are stored in OpenGl in **slots**. The **number of slots** depends on the GPU.
+### Mipmaps
 
-Its possible to ask OpenGl how many available slots there are!
+- Resolution limitation for textures
+- Closer -> more pixelated | Away -> multiple texels to same pixel
+- Solution!!! Create multiple versions of the texture at different resolutions and switch them based on distance
 
-## Projections
+### Texture parameters (already seen in implementation)
+
+What would happen if trying to render off center of texels??
+
+- **Nearest**: Use the texel with most overlap ( creates pixelated effect )
+- **Linear**: Use a weighted average of surrounding texels ( blend pixel boundaries )
+- Latter is more common
+
+What if trying to sample a point outside the [0, 1] range?
+
+![wrap parameters](res/wrapParameters.png)
+
+- Repeat the texture - ```GL_REPEAT```
+- Repeat a mirrored form of the texture ```GL_MIRRORED_REPEAT```
+- Extend pixels at the edge ```GL_CLAMP_TO_EDGE```
+- Apply a colored border ```GL_CLAMP_TO_BORDER```
+
+
+
+# Projections
 
 - Convert from **View Space** to **Clip Space**
 - Used to give a 3D look
 - Or create a 2D style for projects that require it
 - Fundamental coordinate systems are understood
 
-### Coordinate systems
+## Coordinate systems
 
 - **Local Space** - Raw position of each vertex drawn relative to the origin. Multiply by **Model Matrix** to get...
 - **World Space** - Position of the vertex **in the world** itself if **camera assumed** to be at the **origin**. Multiply by **View Matrix** to get...
 - **View Space** - Position of vertex **in the world** relative to the **camera position and orientation**. Multiply by **projection Matrix** to get...
 - **Clip Space** - ... as **viewed in the area** not to be "clipped" from the final output
-- **Screen space** - after clipping, final image is created and placed on the window
+- **Screen space** - after clipping, final image is created and placed on the window after **ViewPort transformation**
 
 **Order matters!!! projection * view * model * LocalSpace**
 
@@ -405,7 +448,7 @@ Its possible to ask OpenGl how many available slots there are!
 - In order to create the **Clip Space** an **area (frustum)** of what is not to be clipped **needs** to be defined with a Projection Matrix
 - There are two main types of Projection
 
-#### Orthographic (most common on 2D apps)
+### Orthographic (most common on 2D apps)
 
 ![OrthographicProjectionImage](res/orthographicProjection.png)
 
@@ -414,7 +457,7 @@ Its possible to ask OpenGl how many available slots there are!
 - 3D depth is not visible
 - Object moving closer/further won't affect its size
 
-#### Perspective (most common on 3D apps)
+### Perspective (most common on 3D apps)
 
 ![PrespectiveProjectionImage](res/prespectiveProjection.png)
 
@@ -423,14 +466,14 @@ Its possible to ask OpenGl how many available slots there are!
 - Gives the illusion of depth
 - The more an object gets closer to the near plane, the more lines it intercepts, getting bigger
 
-#### Comparison
+### Comparison
 
 ![ComparisonProjections](res/comparisonProjection.png)
 
 - **Orthographic**: The one furthest back looks to be the same size as the one in front, implying its larger 
 - **Perspective**: The one in the back look smaller than the one at the front, due to being more distant, as it should
 
-### Projection with GLM and OpenGL
+## Projection with GLM and OpenGL
 
 - glm::mat4 proj = glm::perspective(fov, aspect, near, far);
 - **fov**: field-of-view, the angle of frustum
@@ -441,7 +484,7 @@ Its possible to ask OpenGl how many available slots there are!
 - gl_Position = projection * view * model * vec4(pos, 1.0f);
 
 
-## Camera
+# Camera
 
 ![CameraViewImage](res/cameraView.png)
 
@@ -452,7 +495,7 @@ Its possible to ask OpenGl how many available slots there are!
   - Right: defines the x-axis of the camera. Can be calculated by **cross product** between UP[0,1,0] and Direction
   - Up: can be calculated by the cross product between Direction and the Right
 
-### Calculations of the Matrix
+## Calculations of the Matrix
 
 ![ViewMatrix](res/viewMatrix.png)
 
@@ -461,38 +504,38 @@ Its possible to ask OpenGl how many available slots there are!
   - target: point to look at (can be considered as the camera position + direction)
   - up = The upwards direction of the **world**
 
-#### Moving the camera
+### Moving the camera
 
 - GLFW:glfwGetKey(window, GLFW_KEY_W) to check if a key is pressed
 - Add value to camera position while key is held
 
-###### Input: Delta Time
+##### Input: Delta Time
 
 - Basic Idea: Check how much time passed since last loop and move based on that so speed is constant
 - deltaTime = current - last;
 - last = current
 - multiply movement speed by deltaTime
   
-#### Turning
+### Turning
 
 - Pitch: looking up and down - needs to rotate view up and down using axis relative to yaw
 - Yaw: looking left and right - only rotates us around the y-axis
 - Roll: like a plane doing a barrel roll
 
-##### Pitch
+#### Pitch
 - X = sin(pitch)
 - y = cos(pitch)
 - z = cos(pitch)
 
-##### Yaw
+#### Yaw
 - x = cos(yaw)
 - y = sin(yaw)
 
-##### Final
+#### Final
 
 
 
-## Math stuff required
+# Math stuff required
 
 
 

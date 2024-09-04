@@ -8,7 +8,7 @@ static uint CompileShader(const std::string& source, uint type){
 
     uint id = glCreateShader(type);
     const char* src = source.c_str();
-    glShaderSource(id, 1, &src, NULL);
+    glShaderSource(id, 1, &src, nullptr);
     glCompileShader(id);
 
     // Error Handling

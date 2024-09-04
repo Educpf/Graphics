@@ -7,7 +7,7 @@ CXXFLAGS = -std=c++11 -pedantic
 
 # Enable all standard warnings, uninitialized variable warnings,
 # and treat all warnings as errors
-CXXFLAGS += -Wall -Wuninitialized -Werror
+CXXFLAGS += -Wall -Wuninitialized
 
 # Generate code with debugging information
 # (for use with a debugger like gdb)
@@ -22,15 +22,16 @@ LDFLAGS = -lm -lglfw -lGLEW -lGL
 PROG = rooster
 
 # Source files
-SRC = main.cpp
+SRC = Mesh.cpp Shader.cpp Windoh.cpp Camera.cpp Texture.cpp
 
 # Default target
 all: $(PROG)
 
 # Build the target executable
 %: %.cpp
-	$(CXX) $(CXXFLAGS) $< -o rooster $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(SRC) $< -o rooster $(LDFLAGS)
 	./rooster
+
 
 # Clean up build files
 clean:
