@@ -1,45 +1,58 @@
-
-# Set g++ as the C++ compiler
+# Variables
 CXX = g++
-
-# Enforce C++ 11 as the language standard
-CXXFLAGS = -std=c++11 -pedantic
-
-# Enable all standard warnings, uninitialized variable warnings,
-# and treat all warnings as errors
-CXXFLAGS += -Wall -Wuninitialized
-
-# Generate code with debugging information
-# (for use with a debugger like gdb)
+CXXFLAGS = -std=c++17 -pedantic
+CXXFLAGS += -Wall -Wextra -Wuninitialized 
 CXXFLAGS += -g
 
-CXXFLAGS += -I/usr/include/glm
+INCLUDES = -Iinclude
+DEPFLAGS = -MMD -MP
 
 # Link with math library and other required libraries
 LDFLAGS = -lm -lglfw -lGLEW -lGL
 
-# Name of executable program
-PROG = rooster
+# Directories
+SRCDIR = src
+INCDIR = include
+OBJDIR = obj
+DEPDIR = dep
+BINDIR = bin
+RESIR = res
 
-# Source files
-SRC = Mesh.cpp Shader.cpp Windoh.cpp Camera.cpp Texture.cpp
+# Source and object files
+SRCS = $(filter-out $(wildcard $(SRCDIR)/*.cpp), $(wildcard $(SRCDIR)/**/*.cpp))
+OBJS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
+DEPS = $(patsubst $(OBJDIR)/%.o, $(DEPDIR)/%.d, $(OBJS))
 
-# Default target
-all: $(PROG)
+# Resources folder
+RESRC = $(wildcard $(RESIR)/**/*)
 
-# Build the target executable
-%: %.cpp
-	$(CXX) $(CXXFLAGS) $(SRC) $< -o rooster $(LDFLAGS)
-	./rooster
+# Output executable
+TARGET = $(BINDIR)/$(file)
 
 
-# Clean up build files
+all: $(TARGET)
+
+
+# Rule to link the object files into the executable
+$(TARGET): $(OBJDIR)/$(file).o $(OBJS) $(RESRC)
+	@mkdir -p $(BINDIR)
+	$(CXX) $(CXXFLAGS) $(OBJS) $(OBJDIR)/$(file).o $(INCLUDES) -o $(TARGET) $(LDFLAGS)
+
+# Pattern rule to compile source files into object files with dependency generation
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	@mkdir -p $(OBJDIR) $(DEPDIR) $(dir $(OBJDIR)/$*) $(dir $(DEPDIR)/$*)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
+	@mv $(OBJDIR)/$*.d $(DEPDIR)/$*.d
+
+
+# Include dependency files
+-include $(DEPS)
+
+# Clean target to remove intermediate and output files
 clean:
-	rm -f $(PROG)
-
-run:
-	./rooster
+	rm -rf $(OBJDIR) $(DEPDIR) $(BINDIR)
 
 # Phony targets
-.PHONY: all clean
+.PHONY: all clean file
+
 

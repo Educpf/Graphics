@@ -34,10 +34,10 @@ GLfloat deltaTime = 0.0f;
 GLfloat lastTime = 0.0f;
 
 // Vertex shader
-static const char* vShader = "shaders/vertex.glsl";
+static const char* vShader = "res/shaders/vertex.glsl";
 
 // fragment shader
-static const char* fShader = "shaders/fragment.glsl";
+static const char* fShader = "res/shaders/fragment.glsl";
 
 
 void CreateObject() {
@@ -85,9 +85,9 @@ int main() {
     camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0, 5.0f, 0.1f);
 
 
-    brickTexture = Texture("Textures/brick.png");
+    brickTexture = Texture("res/Textures/brick.png");
     brickTexture.LoadTexture();
-    dirtTexture = Texture("Textures/dirt.png");
+    dirtTexture = Texture("res/Textures/dirt.png");
     dirtTexture.LoadTexture();
 
 
