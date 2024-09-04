@@ -535,7 +535,53 @@ What if trying to sample a point outside the [0, 1] range?
 
 
 
-# Math stuff required
+# Lighting 
+
+## Phong lighting/Reflection
+ 
+<img src="res/phongLighting.png" alt="Description" style="height: 12em; ">
+
+
+
+- **Ambient lighting**: light that is always present, even if direct source's path is blocked
+- **Diffuse lighting**: light determined by the direction of light source. Creates a faded effect further from the light
+- **Specular lighting**: light reflected perfectly from the source to viewer's eye, (reflection of the light source). More prominent on shiny objects
+
+All this combined create the **"Phong Lighting Model"**!
+
+
+## Ambient lighting
+
+- Simulates light bouncing off other objects
+- Ex. Create a shadow with your hand. The shadow still has color!! 
+- Global illumination (another very advanced lighting model) actually simulates this behavior
+
+### Creation 
+
+- Define an ambient lighting factor
+- ambient = lightColor * ambientStrength
+- fragColor = objectColor * ambient
+- ambient = 1 -> full power. Fragment is always lit
+- ambient = 0 -> no power. Fragment is always black
+- ambient = 0.5 -> half power. Fragment is half its normal color
+
+## Diffuse lighting 
+
+- More complex :)
+- Simulates the drop-off of lighting as angle of lighting becomes more shallow
+- Side facing directly at a light is brightly lit
+- Side facing at an angle is more dim
+- Can use the angle between the vector connecting the light source to fragment and the vector perpendicular to the face (aka. normal)
+
+<img src="res/difuseLighting.png" alt="diffuse lighting reflection" 
+style="
+height: 12em; 
+">
+
+- Determine Diffuse factor with angle (o)
+- smaller o: more light
+- Larger o: more dim
+
 
 
 
