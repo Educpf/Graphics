@@ -680,3 +680,19 @@ height: 12em;
 - More advanced type
 - Emits light from an area
 - Example: large light up panel in a ceiling
+
+# Blending
+
+How does OpenGl handle transparency?
+
+- **source/output** - the color we output from the fragment shader
+- **target** - the buffer our fragment shader is drawing to
+- Blending is the process of calculating what the output color should be !
+
+## Controlling
+
+- ```glEnable(GL_BLEND)``` or ```glDisable(GL_BLEND)``` to turn on/off this feature (default off)
+- ```glBlendFunc(srcFactor, destFactor)``` - the factors used to multiply by the src and dest (default GL_ONE / GL_ZERO)
+- ```glBlendEquation(mode)``` - how to combine the src and dest after multiplying by factor (default: GL_FUNC_ADD)
+- The calculation: operationMode(srcFactor * src, destFactor * dest)
+- In order to achieve a realist output use **src=GL_SRC_ALPHA** and **dest=GL_ONE_MINUS_SRC_ALPHA**
