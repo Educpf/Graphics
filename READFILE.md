@@ -581,7 +581,86 @@ height: 12em;
 - Determine Diffuse factor with angle (o)
 - smaller o: more light
 - Larger o: more dim
+- Calculation can be done using **dot product**: v1 * v2 = cos(ang) (if v1 and v2 are normalized)
+- Because ang is [0, 90], cos(ang) would be [0, 1] making this exactly what we want
+- When factor is negative then light source is behind surface so factor is 0
+- In order to apply ambient + diffuse: fragColor = objectColor * (ambient + diffuse)
 
+### Normals
 
+**IMAGE MISSING HERE** 
+**PLEASE PUT AN IMAGE HERE --- 15:20** 
 
+#### Defined for each face
+- Each vertex would have multiple normals ( one for each face it is part of )
+- Good for "Flat shading" ( objects that have sharp edges, nothing round) , not for realistic smooth lighting
+- Doens't work well with indexed draws
 
+#### Phong shading
+- Each vertex has an average of the normals of all the surfaces it is part of
+- Interpolate between the averages in shader to create smooth effect
+- Good for complex models **but** not good for simple objects with sharp edges ( unless use some clever modelling techniques )
+
+#### Problem!!
+
+- When performing non-uniform scales normals are worngly transformed
+- The solution is to perform a "normal matrix"
+
+##### Explanation!
+
+- N . T = 0
+- N' - T' = GN . MT = (GN)t * (MT) = (N)t * (G)t * M * T = 0
+- Considering (G)t * M = I : (N)t * T = N' . T' = 0
+- So: G = (M-1)t
+
+## Specular Lighting
+
+- Specular lighting relies on the position of the viewer
+- It is the direct reflection of the light into the viewer's eye
+- Moving around will affect the apparent position of the reflection on the surface
+- Considering this, it's necessary:
+  - Light vector
+  - Normal vector
+  - Reflection vector ( light vector reflected around normal )
+  - View vector ( vector from viewer to fragment )
+
+**IMAGE HERE: 17:37**
+ 
+- Need the angle between the viewer and the reflection
+- smaller ang = more light
+- **View Vector** - difference between fragment position and the Camera position
+- **Reflection** - obtained with a GLSL function ```reflect(incident, normal)``` ( need to get the formulas !!! ) 
+- Use dot product to get angle between normalized view and reflection to get the specular factor
+
+**IMAGE HERE: 20:13**
+### Shininess
+
+- value to alter behaviour of reflection and make it more accurate
+- Bigger shine = smaller and compact specular
+- specularFactor = (view * reflection)^shininess
+
+To apply just do : fragColor = objectColor * (ambient + diffuse + specular)
+
+## Directional Lighting
+
+- Simplest form of light
+- Without a position source, coming as parallel rays from a infinite distance
+- Only requires basic information ( color, ambient, diffuse, specular ) + direction
+- Use the same **direction** vector for all the light calculations
+- Example: Sun
+
+## Point light
+
+- A light with a position that shines in all directions
+- Example: lighBulb
+
+## Spot light
+
+- Similar to point but emits light only within a certain range
+- Example: flashLight
+
+## Area light
+
+- More advanced type
+- Emits light from an area
+- Example: large light up panel in a ceiling
