@@ -31,6 +31,7 @@ TARGET = $(BINDIR)/$(file)
 
 
 all: $(TARGET)
+	$(TARGET)
 
 
 # Rule to link the object files into the executable
