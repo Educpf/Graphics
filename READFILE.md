@@ -588,8 +588,10 @@ height: 12em;
 
 ### Normals
 
-**IMAGE MISSING HERE** 
-**PLEASE PUT AN IMAGE HERE --- 15:20** 
+<img src="res/normalTransformation.png" alt="diffuse lighting reflection" 
+style="
+height: 12em; 
+">
 
 #### Defined for each face
 - Each vertex would have multiple normals ( one for each face it is part of )
@@ -624,15 +626,23 @@ height: 12em;
   - Reflection vector ( light vector reflected around normal )
   - View vector ( vector from viewer to fragment )
 
-**IMAGE HERE: 17:37**
  
+<img src="res/specularVectors.png" alt="specular vectors image" 
+style="
+height: 12em; 
+">
+
 - Need the angle between the viewer and the reflection
 - smaller ang = more light
 - **View Vector** - difference between fragment position and the Camera position
 - **Reflection** - obtained with a GLSL function ```reflect(incident, normal)``` ( need to get the formulas !!! ) 
 - Use dot product to get angle between normalized view and reflection to get the specular factor
 
-**IMAGE HERE: 20:13**
+<img src="res/shininessLevels.png" alt="levels of shininess" 
+style="
+height: 12em; 
+">
+
 ### Shininess
 
 - value to alter behaviour of reflection and make it more accurate
@@ -642,6 +652,12 @@ height: 12em;
 To apply just do : fragColor = objectColor * (ambient + diffuse + specular)
 
 ## Directional Lighting
+
+
+<img src="res/directionalLight.png" alt="Directional light sun example" 
+style="
+height: 12em; 
+">
 
 - Simplest form of light
 - Without a position source, coming as parallel rays from a infinite distance
