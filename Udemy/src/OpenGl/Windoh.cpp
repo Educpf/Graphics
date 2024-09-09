@@ -1,5 +1,7 @@
 #include "Windoh.h"
 
+#include <iostream>
+
 void Windoh::calculateProjectionMatrix()
 {
     projection = glm::perspective((GLfloat)(M_PI / 180.0f * 45.0f), (GLfloat)bufferWidth / (GLfloat)bufferHeight, 0.1f, 100.0f);
@@ -24,7 +26,9 @@ void Windoh::handleKeys(GLFWwindow* window, int key, int code, int action, int m
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
 
-    if (key >= 0 && key < 1024)
+    if (key == GLFW_KEY_P && action == GLFW_PRESS) windoh->lockedInput = !windoh->lockedInput;
+
+    if (key >= 0 && key < 1024 && !windoh->lockedInput)
     {
         if (action == GLFW_PRESS) windoh->keys[key] = true;
         else if (action == GLFW_RELEASE) windoh->keys[key] = false;

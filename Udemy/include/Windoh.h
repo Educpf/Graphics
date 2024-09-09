@@ -12,7 +12,7 @@ class Windoh
 {
 
  public:
-    Windoh() : width(800), height(600), xChange(0), yChange(0)
+    Windoh() : width(800), height(600), xChange(0), yChange(0), lockedInput(false), mouseFirstMoved(true)
     {
       for (unsigned int i = 0; i < 1024; i++)
       {
@@ -20,7 +20,7 @@ class Windoh
       }
 
     };
-    Windoh(GLint width, GLint height) : width(width), height(height), xChange(0), yChange(0)
+    Windoh(GLint width, GLint height) : width(width), height(height), xChange(0), yChange(0), lockedInput(false), mouseFirstMoved(true)
     {
       for (unsigned int i = 0; i < 1024; i++)
       {
@@ -56,6 +56,7 @@ class Windoh
     GLfloat lastY;
     GLfloat xChange;
     GLfloat yChange;
+    bool lockedInput;
     bool mouseFirstMoved;
 
    glm::mat4 projection;
