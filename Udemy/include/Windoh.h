@@ -4,6 +4,9 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class Windoh
 {
@@ -26,7 +29,7 @@ class Windoh
 
     };
 
-    int Initialise(bool resize);
+    int Initialise(bool resize, bool disableMouse);
 
     inline GLint getBufferWidth() { return bufferWidth; };
     inline GLint getBufferHeight() { return bufferHeight; };
@@ -38,6 +41,8 @@ class Windoh
     inline GLfloat getYChange() { GLfloat change = yChange; yChange = 0; return change; }
 
     inline void swapBuffers() { glfwSwapBuffers(mainWindow);}
+   glm::mat4 getProjectionMatrix() { return projection;}
+
     ~Windoh();
 
  private:
@@ -53,7 +58,9 @@ class Windoh
     GLfloat yChange;
     bool mouseFirstMoved;
 
+   glm::mat4 projection;
 
+   void calculateProjectionMatrix();
    static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
    static void handleKeys(GLFWwindow* window, int key, int code, int action, int mode);
    static void handleMouse(GLFWwindow* window, double xNew, double yNew);

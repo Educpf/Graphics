@@ -1,9 +1,18 @@
 #include "Windoh.h"
 
+void Windoh::calculateProjectionMatrix()
+{
+    projection = glm::perspective((GLfloat)(M_PI / 180.0f * 45.0f), (GLfloat)bufferWidth / (GLfloat)bufferHeight, 0.1f, 100.0f);
+}
 
 void Windoh::framebuffer_size_callback(GLFWwindow* window, int width,
                                        int height) {
+    Windoh* windoh = static_cast<Windoh*>(glfwGetWindowUserPointer(window));
     glViewport(0, 0, width, height);
+    windoh->bufferHeight = height;
+    windoh->bufferWidth = width;
+    windoh->calculateProjectionMatrix();
+    
 }
 
 void Windoh::handleKeys(GLFWwindow* window, int key, int code, int action, int mode)
@@ -40,10 +49,9 @@ void Windoh::handleMouse(GLFWwindow* window, double xNew, double yNew)
     windoh->lastX = xNew;
     windoh->lastY = yNew;
 
-    printf("x: %.6f \n y: %.6f", windoh->xChange, windoh->yChange);
 }
 
-int Windoh::Initialise(bool resize)
+int Windoh::Initialise(bool resize, bool disableMouse)
 {
 
     // Initialize GLFW
@@ -71,6 +79,8 @@ int Windoh::Initialise(bool resize)
         return 1;
     }
 
+
+
     // Create CALLBACKS
 
     if (resize)
@@ -86,8 +96,9 @@ int Windoh::Initialise(bool resize)
     glfwSetKeyCallback(mainWindow, handleKeys);
         // Mouse
     glfwSetCursorPosCallback(mainWindow, handleMouse);
-    glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (disableMouse) glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+    calculateProjectionMatrix();
 
     // Set new context for Glew to use
     glfwMakeContextCurrent(mainWindow);
