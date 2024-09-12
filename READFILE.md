@@ -667,13 +667,77 @@ height: 12em;
 
 ## Point light
 
+<img src="res/pointLight.png" alt="Point light image" 
+style="
+height: 12em; 
+">
+
 - A light with a position that shines in all directions
 - Example: lighBulb
+- There's a need to calculate manually the direction vector ( light position - frag position)
+- After getting the direction use the same logic as directional lighting
+- It's possible to describe the change using 1/(ax²+bx+c) - being x the distance to the light
+
+### Attenuation
+
+<img src="res/lightAttenuationFunction.png" alt="Light attenuation function graph" 
+style="
+height: 12em; 
+">
+
+- Distance between light source and point being lit influence the power of lighting
+- Easy solution: Linear drop-off ( not realistic )
+- In reality, light intensity initially drops quickly with distance
+
+<img src="res/lightAttenuationFactorFormula.png" alt="Light attenuation factor formula" 
+style="
+height: 12em; 
+">
+
+- **quadratic**: user defined value - usually the lowest of the three
+- **linear**k: user defined value - lower than constant
+- **constant**: usually 1.0 to ensure denominator is always greater than 1
+- See useful values [here](https://wiki.ogre3d.org/tiki-index.php?page=-Point+Light+Attenuation)
+- **APPLICATION** -- apply the attenuation to ambient, diffuse and specular!
 
 ## Spot light
 
+<img src="res/spotLight.png" alt="Spot light diagram" 
+style="
+height: 12em; 
+">
+
 - Similar to point but emits light only within a certain range
 - Example: flashLight
+- **Direction** - Where the spot is facing
+- **Cut-off angle** - angle that describes the "edges" of the light
+- Need to compare **Angle to fragment** to **Cutoff Angle**
+- **angleToFrag** - lightVector . lightDirection
+- If **angleToFrag** is larger than **cos(cutOffAngle)** then apply lighting. Otherwise don't
+
+### Edge effects
+
+- Simple approach has sharp edges
+- Creates unrealistic spot light ( might be good for some styles)
+- Solution! Use the dot product from before as a factor!
+- Problem: due to select range, dot product won't scale well (ex. 10degrees, cos(angle) = [0.98, 1])
+- Solution! Scale dot product to the range 0 - 1
+
+<img src="res/changeRangeFormula.png" alt="Change range formula" 
+style="
+height: 12em; 
+">
+
+- Inverting so that range has inverse logic
+- This way, maximum value 1 when angle is 0 with the direction
+
+<img src="res/simplifiedRangeFormula.png" alt="Simplified range change formula" 
+style="
+height: 12em; 
+">
+
+- Color = spotLightColor * spotLightFade
+
 
 ## Area light
 
