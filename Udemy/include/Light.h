@@ -8,22 +8,18 @@ class Light
 {
 
  public:
-   Light() : color(glm::vec3(1.0f, 1.0f, 1.0f)), ambientIntensity(1), direction(glm::vec3(0.0f, -1.0f, 0.0f)), diffuseIntensity(0.0f){};
+   Light() : color(glm::vec3(1.0f, 1.0f, 1.0f)), ambientIntensity(1), diffuseIntensity(0.0f){};
    
-   Light(GLfloat red, GLfloat green, GLfloat blue, GLfloat ambientIntensity,
-         GLfloat xDirection, GLfloat yDirection, GLfloat zDirection, GLfloat diffuseIntensity) 
-         : color(glm::vec3(red, green, blue)), ambientIntensity(ambientIntensity), direction(glm::vec3(xDirection, yDirection, zDirection)), diffuseIntensity(diffuseIntensity){};
+   Light(GLfloat red, GLfloat green, GLfloat blue, GLfloat ambientIntensity, GLfloat diffuseIntensity) 
+         : color(glm::vec3(red, green, blue)), ambientIntensity(ambientIntensity), diffuseIntensity(diffuseIntensity){};
 
  public:
 
 
-   void UseLight(GLfloat ambientIntensityLocation, GLfloat ambientColorLocation, GLfloat diffuseIntensityLocation, GLfloat directionLocation);
-
- private:
+ protected:
    glm::vec3 color;
    GLfloat ambientIntensity;
 
-   glm::vec3 direction;
    GLfloat diffuseIntensity;
     
 };

@@ -2,7 +2,12 @@
 
 void Camera::keyControl(bool* keys, GLfloat time)
 {
-    GLfloat distance = movementSpeed * time;
+    bool speed = false;
+    if (keys[GLFW_KEY_LEFT_CONTROL]) speed = true;
+
+    GLfloat distance = (movementSpeed + (10 * speed)) * time;
+
+
 
     if (keys[GLFW_KEY_W]) position += front * distance;
     if (keys[GLFW_KEY_S]) position -= front * distance;
