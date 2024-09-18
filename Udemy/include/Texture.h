@@ -14,7 +14,8 @@ class Texture
     ~Texture() {ClearTexture();};
     
  public: 
-    void LoadTexture();
+    bool LoadTextureA();
+    bool LoadTexture();
     void UseTexture();
     void ClearTexture();
 
