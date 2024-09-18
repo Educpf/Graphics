@@ -22,6 +22,12 @@ SpotLight::SpotLight(GLfloat red, GLfloat green, GLfloat blue,
     processedEdge = cosf(glm::radians(edge));
 }
 
+void SpotLight::SetFlash(glm::vec3 position, glm::vec3 direction)
+{
+    this->position = position;
+    this->direction = direction;
+}
+
 void SpotLight::UseLight(GLuint ambientIntensityLocation,
                          GLuint ambientColorLocation,
                          GLuint diffuseIntensityLocation,

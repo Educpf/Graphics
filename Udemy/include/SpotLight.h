@@ -22,6 +22,10 @@ class SpotLight :
                 GLuint positionLocation, GLuint directionLocation, GLuint edgeLocation, 
                 GLuint constantLocation, GLuint linearLocation, GLuint exponentLocation);
 
+    void SetFlash(glm::vec3 position, glm::vec3 front);
+
+
+
  private:
 
     glm::vec3 direction;

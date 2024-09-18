@@ -194,7 +194,7 @@ int main() {
     unsigned int spotLightCount = 0;
     spotLightCount++;
     spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,   // color
-                                0.0f, 1.0f,        // ambient and diffuse intensity
+                                0.0f, 2.0f,        // ambient and diffuse intensity
                                 0.0f, 0.0f, 0.0f, // position
                                 0.0f, -1.0f, 0.0f, // direction
                                 0.3f, 0.2f, 0.1f,  // distance attenuation
@@ -238,6 +238,8 @@ int main() {
         uniformSpecularIntensity = shaderList[0]->GetSpecularIntensityLocation();
         uniformShininess = shaderList[0]->GetShininessLocation();
 
+
+        spotLights[0].SetFlash(camera.getCameraPosition() - glm::vec3(0, 0.3, 0), camera.getCameraDirection());
         shaderList[0]->SetDirectionalLight(&mainLight);
         shaderList[0]->SetPointLights(pointLights, pointLightCount);
         shaderList[0]->SetSpotLights(spotLights, spotLightCount);
@@ -281,7 +283,7 @@ int main() {
 
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
         dirtTexture.UseTexture();
-        dullMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
+        shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
         meshList[2]->RenderMesh();
 
 

@@ -18,11 +18,12 @@ class Camera{
 
  public:
 
-    void keyControl(bool* keys, GLfloat time);
-    void mouseControl(GLfloat xChange, GLfloat yChange);
-    glm::mat4 CalculateViewMatrix();
+   void keyControl(bool* keys, GLfloat time);
+   void mouseControl(GLfloat xChange, GLfloat yChange);
+   glm::mat4 CalculateViewMatrix();
 
    glm::vec3 getCameraPosition();
+   glm::vec3 getCameraDirection();
 
  private:
     glm::vec3 position;
