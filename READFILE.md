@@ -8,6 +8,13 @@
 - I hope I can learn this, and enjoy this harsh journey
 
 
+# Questions
+
+- Understand why light doesn't bright too much
+- Which directions are normals facing ? 
+
+
+
 # Lessons
 
 # General Ideas

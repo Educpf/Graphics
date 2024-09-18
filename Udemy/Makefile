@@ -8,7 +8,7 @@ INCLUDES = -Iinclude
 DEPFLAGS = -MMD -MP
 
 # Link with math library and other required libraries
-LDFLAGS = -lm -lglfw -lGLEW -lGL
+LDFLAGS = -lm -lglfw -lGLEW -lGL -lassimp
 
 # Directories
 SRCDIR = src
