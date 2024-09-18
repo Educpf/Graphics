@@ -8,11 +8,13 @@ void Camera::keyControl(bool* keys, GLfloat time)
     GLfloat distance = (movementSpeed + (10 * speed)) * time;
 
 
+    glm::vec3 frontDirection(front.x, 0, front.z);
+    glm::vec3 rightDirection(right.x, 0, right.z);
 
-    if (keys[GLFW_KEY_W]) position += front * distance;
-    if (keys[GLFW_KEY_S]) position -= front * distance;
-    if (keys[GLFW_KEY_D]) position += right * distance;
-    if (keys[GLFW_KEY_A]) position -= right * distance;
+    if (keys[GLFW_KEY_W]) position += frontDirection * distance;
+    if (keys[GLFW_KEY_S]) position -= frontDirection * distance;
+    if (keys[GLFW_KEY_D]) position += rightDirection * distance;
+    if (keys[GLFW_KEY_A]) position -= rightDirection * distance;
     if (keys[GLFW_KEY_SPACE]) position += worldUp * distance;
     if (keys[GLFW_KEY_LEFT_SHIFT]) position -= worldUp * distance;
 

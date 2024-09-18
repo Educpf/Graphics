@@ -10,7 +10,8 @@ Now shaders are rendered from outside file located in the res/shaders directory
 Both shaders (vertex and fragment are write in the same file)
 
 Update:
-Make use of Uniforms to be able to change the fragment shader to use CPU information
+Make use of Uniforms to be able to change the fragment shader to use CPU
+information
 */
 
 #include <GL/glew.h>
@@ -93,7 +94,7 @@ static ShaderProgramSource ParseShader(const std::string& filepath) {
                 // set mode to fragment
                 type = ShaderType::FRAGMENT;
             }
-        } else if (type != ShaderType::NONE){ 
+        } else if (type != ShaderType::NONE) {
             ss[(int)type] << line << "\n";
         }
     }
@@ -167,7 +168,6 @@ int main(void) {
     // Syncronize with monitors refresh rate
     glfwSwapInterval(1);
 
-
     if (glewInit() != GLEW_OK) {
         std::cout << "ERROR while initializing GLEW" << std::endl;
         return -1;
@@ -188,7 +188,6 @@ int main(void) {
     uint vao;
     GLCall(glGenVertexArrays(1, &vao));
     GLCall(glBindVertexArray(vao));
-
 
     // The ID - identifier for the buffer
     uint buffer;
@@ -249,7 +248,7 @@ int main(void) {
 
         /*Using Modern OpenGl*/
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-        if (count % 4 == 0){
+        if (count % 4 == 0) {
             if (r > 1.0f)
                 increment = -0.05f;
             else if (r < 0.0f)

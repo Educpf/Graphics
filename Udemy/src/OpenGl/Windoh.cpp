@@ -2,6 +2,21 @@
 
 #include <iostream>
 
+
+void MessageCallback( GLenum source,
+                               GLenum type,
+                               GLuint id,
+                               GLenum severity,
+                               GLsizei length,
+                               const GLchar* message,
+                               const void* userParam ) {
+    std::cerr << "GL CALLBACK: " << ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ) 
+              << " type = " << type 
+              << ", severity = " << severity 
+              << ", message = " << message << std::endl;
+}
+
+
 void Windoh::calculateProjectionMatrix()
 {
     projection = glm::perspective((GLfloat)(M_PI / 180.0f * 45.0f), (GLfloat)bufferWidth / (GLfloat)bufferHeight, 0.1f, 100.0f);
@@ -57,7 +72,7 @@ void Windoh::handleMouse(GLFWwindow* window, double xNew, double yNew)
 
 }
 
-int Windoh::Initialise(bool resize, bool disableMouse)
+int Windoh::Initialise(bool resize, bool disableMouse, bool advancedErrorDetection)
 {
 
     // Initialize GLFW
@@ -69,8 +84,18 @@ int Windoh::Initialise(bool resize, bool disableMouse)
 
     // ------ Setup GLFW Window properties
     // OpenGl Version
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    int major, minor;
+    if (advancedErrorDetection)
+    {
+        major = 4;
+        minor = 3;
+    }else 
+    {
+        major = minor = 3;
+    }
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor);
     // Is not backwards compatibility
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     // Allow forward compatibility
@@ -122,6 +147,12 @@ int Windoh::Initialise(bool resize, bool disableMouse)
     }
 
     glEnable(GL_DEPTH_TEST);
+    if (advancedErrorDetection)
+    {
+        glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        glDebugMessageCallback(MessageCallback, 0);
+    }
 
     // Define who "owns" the window
     glfwSetWindowUserPointer(mainWindow, this);

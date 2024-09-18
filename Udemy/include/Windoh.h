@@ -29,7 +29,7 @@ class Windoh
 
     };
 
-    int Initialise(bool resize, bool disableMouse);
+    int Initialise(bool resize, bool disableMouse, bool advancedErrorDetection);
 
     inline GLint getBufferWidth() { return bufferWidth; };
     inline GLint getBufferHeight() { return bufferHeight; };

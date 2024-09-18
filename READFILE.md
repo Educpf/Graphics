@@ -584,7 +584,7 @@ height: 12em;
 - Calculation can be done using **dot product**: v1 * v2 = cos(ang) (if v1 and v2 are normalized)
 - Because ang is [0, 90], cos(ang) would be [0, 1] making this exactly what we want
 - When factor is negative then light source is behind surface so factor is 0
-- In order to apply ambient + diffuse: fragColor = objectColor * (ambient + diffuse)
+- In order to apply ambient + diffuse: $fragColor = objectColor * (ambient + diffuse)$
 
 ### Normals
 

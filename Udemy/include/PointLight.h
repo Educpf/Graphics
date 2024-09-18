@@ -17,11 +17,11 @@ class PointLight :
                 GLfloat constant, GLfloat linear, GLfloat exponent);
 
 
-    void UseLight(GLfloat ambientIntensityLocation, GLfloat ambientColorLocation, GLfloat diffuseIntensityLocation, 
-                GLfloat positionLocation, GLfloat constantLocation, GLfloat linearLocation, GLfloat exponentLocation);
+    void UseLight(GLuint ambientIntensityLocation, GLuint ambientColorLocation, GLuint diffuseIntensityLocation, 
+                GLuint positionLocation, GLuint constantLocation, GLuint linearLocation, GLuint exponentLocation);
 
 
- private:
+ protected:
 
     glm::vec3 position;
     GLfloat constant, linear, exponent;

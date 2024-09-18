@@ -1,88 +1,106 @@
 #pragma once
 
-
+#include <GL/glew.h>
 #include <stdio.h>
-#include <iostream>
-#include <fstream>
 #include <string.h>
 
-#include <GL/glew.h>
-
-
-#include "DirectionalLight.h"
-#include "PointLight.h"
+#include <fstream>
+#include <iostream>
 
 #include "CommonValues.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
 
-class Shader 
-{
- public:
-   Shader() : shaderID(0),  uniformProjection(0), uniformModel(0), uniformView(0), pointLightCount(0) {};
-   ~Shader();
- private:
+class Shader {
+   public:
+    Shader()
+        : shaderID(0),
+          uniformProjection(0),
+          uniformModel(0),
+          uniformView(0),
+          pointLightCount(0),
+          spotLightCount(0) {};
 
-   void CompileShader(const char* vertexCode, const char* fragmentCode);
-   void AddShader(GLuint theProgram, const char* shaderCode, GLenum shaderType);
+    ~Shader();
 
-   void ClearShader();
+   private:
+    void CompileShader(const char* vertexCode, const char* fragmentCode);
+    void AddShader(GLuint theProgram, const char* shaderCode,
+                   GLenum shaderType);
 
- public:
+    void ClearShader();
 
-   void CreateFromString(const char* vertexCode, const char* fragmentCode);
-   void CreateFromFile(const char* vertexPath, const char* fragmentPath);
+   public:
+    void CreateFromString(const char* vertexCode, const char* fragmentCode);
+    void CreateFromFile(const char* vertexPath, const char* fragmentPath);
 
-   std::string ReadFile(const char* filePath);
+    std::string ReadFile(const char* filePath);
 
- public:
+   public:
+    void UseShader();
 
-   void UseShader();
+    void SetDirectionalLight(DirectionalLight* directionalLight);
+    void SetPointLights(PointLight* pointLights, unsigned int lightCount);
+    void SetSpotLights(SpotLight* spotLights, unsigned int lightCount);
 
-   void SetDirectionalLight(DirectionalLight* directionalLight);
-   void SetPointLights(PointLight* pointLights, unsigned int lightCount);
+   public:
+    uint getID() { return shaderID; };
+    GLuint GetProjectionLocation();
+    GLuint GetModelLocation();
+    GLuint GetViewLocation();
+    GLuint GetAmbientIntensityLocation();
+    GLuint GetAmbientColorLocation();
+    GLuint GetDiffuseIntensityLocation();
+    GLuint GetDirectionLocation();
+    GLuint GetSpecularIntensityLocation();
+    GLuint GetShininessLocation();
+    GLuint GetEyePositionLocation();
 
- public:
+   private:
+    GLuint shaderID, uniformProjection, uniformModel, uniformView,
+        uniformEyePosition;
+    GLuint uniformSpecularIntensity, uniformShininess;
 
-   uint getID() { return shaderID; };
-   GLuint GetProjectionLocation();
-   GLuint GetModelLocation();
-   GLuint GetViewLocation();
-   GLuint GetAmbientIntensityLocation();
-   GLuint GetAmbientColorLocation();
-   GLuint GetDiffuseIntensityLocation();
-   GLuint GetDirectionLocation();
-   GLuint GetSpecularIntensityLocation();
-   GLuint GetShininessLocation();
-   GLuint GetEyePositionLocation();
-   
+    int pointLightCount;
+    int spotLightCount;
+    GLuint uniformPointLightCount, uniformSpotLightCount;
 
- private:
+    struct {
+        GLuint uniformColor;
+        GLuint uniformAmbientIntensity;
+        GLuint uniformDiffuseIntensity;
 
-    GLuint shaderID, uniformProjection, uniformModel, uniformView, uniformEyePosition;
-    GLuint uniformPointLightCount, uniformSpecularIntensity, uniformShininess;
+        GLuint uniformDirection;
 
-   int pointLightCount;
+    } uniformDirectionalLight;
 
-   struct {
+    struct {
+        GLuint uniformColor;
+        GLuint uniformAmbientIntensity;
+        GLuint uniformDiffuseIntensity;
 
-      GLuint uniformColor;
-      GLuint uniformAmbientIntensity;
-      GLuint uniformDiffuseIntensity;
+        GLuint uniformPosition;
+        GLuint uniformConstant;
+        GLuint uniformLinear;
+        GLuint uniformExponent;
 
-      GLuint uniformDirection;
+    } uniformPointLight[MAX_POINT_LIGHTS];
 
-   } uniformDirectionalLight;
+    struct {
 
-   struct {
+        GLuint uniformColor;
+        GLuint uniformAmbientIntensity;
+        GLuint uniformDiffuseIntensity;
 
-      GLuint uniformColor;
-      GLuint uniformAmbientIntensity;
-      GLuint uniformDiffuseIntensity;
+        GLuint uniformPosition;
+        GLuint uniformDirection;
+        GLuint uniformEdge;
 
-      GLuint uniformPosition;
-      GLuint uniformConstant;
-      GLuint uniformLinear;
-      GLuint uniformExponent;
+        GLuint uniformConstant;
+        GLuint uniformLinear;
+        GLuint uniformExponent;
 
-   } uniformPointLight[MAX_POINT_LIGHTS];
+    } uniformSpotLight[MAX_SPOT_LIGHTS];
 
 };
