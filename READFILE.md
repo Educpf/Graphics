@@ -610,8 +610,8 @@ height: 12em;
 
 ##### Explanation!
 
-- N . T = 0
-- N' - T' = GN . MT = (GN)t * (MT) = (N)t * (G)t * M * T = 0
+- $N \cdot T = 0$
+- $N' - T' = GN \cdot MT = (GN)\intercal \times (MT) = N\intercal \times G\intercal \times M \times T = 0$
 - Considering (G)t * M = I : (N)t * T = N' . T' = 0
 - So: G = (M-1)t
 
