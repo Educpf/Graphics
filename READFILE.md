@@ -60,7 +60,7 @@ Library to handle windows and create OpenGL context.
 
 Super popular and similar to GLFW but with more functionalities (audio, threading, filesystems)
 
-## Alternatifve
+## Alternative
 
 - SFML (simple and fast multimedia library) - even more features than SDL. Week OpenGl context
 - GLUT (OpenGL Utility Toolkit) - no longer maintained. AVOID IT! ahahah
@@ -339,7 +339,7 @@ glUniform...:
 - Sometimes Per-Vertex attributes are **interpolated**, meaning that the values between those vertices are discovered by a **weighted average**.
 - Fragment Shader picks that interpolated value and uses it
 
-Uses:
+**Uses:**
 
 - Texture Coordinates when mapping textures (only need to define corners and the rest gets mapped)
 - Normal Vectors when handling lighting 
@@ -440,6 +440,8 @@ What if trying to sample a point outside the [0, 1] range?
 - Or create a 2D style for projects that require it
 - Fundamental coordinate systems are understood
 
+
+
 ## Coordinate systems
 
 - **Local Space** - Raw position of each vertex drawn relative to the origin. Multiply by **Model Matrix** to get...
@@ -480,15 +482,28 @@ What if trying to sample a point outside the [0, 1] range?
 - **Orthographic**: The one furthest back looks to be the same size as the one in front, implying its larger 
 - **Perspective**: The one in the back look smaller than the one at the front, due to being more distant, as it should
 
-## Projection with GLM and OpenGL
+## Projection calculation
+
+### With GLM
 
 - glm::mat4 proj = glm::perspective(fov, aspect, near, far);
-- **fov**: field-of-view, the angle of frustum
-- **aspect**: aspect ratio of the viewport (usually **width/height**)
-- **near**: distance of the near plane
-- **far**: distance of the far plane
+  - **fov**: field-of-view, the angle of frustum
+  - **aspect**: aspect ratio of the viewport (usually **width/height**)
+  - **near**: distance of the near plane
+  - **far**: distance of the far plane
 - Bind the given matrix to an uniform
 - gl_Position = projection * view * model * vec4(pos, 1.0f);
+
+### By Hand 
+
+#### Logic
+
+- At this stage, the process involves converting the view frustum into OpenGL's canonical view volume, which is essentially a cube with side length 2, centered at the origin.
+
+- This transformation is necessary because only the vertices that fall within this volume will be displayed on the screen. Vertices outside this area are clipped and won’t be rendered, which helps optimize performance.
+
+- While the specific view volume can vary between different graphics APIs, the concept remains similar across them. This normalization improves the efficiency of various calculations, particularly for clipping and culling, ensuring that only the relevant parts of the scene are processed and displayed.
+
 
 
 # Camera
