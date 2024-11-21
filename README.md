@@ -3,9 +3,11 @@
 # Hello
 
 - This is my process of learning how do graphics work!
-- I am going to follow the Udemy course by -----, and the youtuber Cherno
+- I am going to mainly follow this [Udemy Course](https://www.udemy.com/course/graphics-with-modern-opengl/), and the OpenGl youtube series from [Cherno](https://www.youtube.com/@TheCherno)
+- My thanks as well to [OGLDEV](https://www.youtube.com/@OGLDEV/featured) and [Learn OpenGl](https://learnopengl.com/) for diving deeper into some of the concepts
+- I hope I can learn this
 
-- I hope I can learn this, and enjoy this harsh journey
+ Enjoy this harsh journey
 
 
 # Questions
